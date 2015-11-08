@@ -4,6 +4,7 @@ import model.Appointment;
 import model.Doctor;
 import model.Patient;
 import model.Schedule;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
 import javax.print.attribute.standard.SheetCollate;
@@ -18,25 +19,32 @@ import java.util.Map;
  */
 public class AppointmentHelper {
 
+    private final static Logger LOGGER = Logger.getLogger(AppointmentHelper.class);
+
     public static void createAppointment(Patient patient, Doctor doctor, DateTime dateTime) {
         Appointment newAppointment = new Appointment(patient, doctor, dateTime);
         Schedule.addAppointment(newAppointment);
     }
 
     public static void listAllAppointments() {
+        StringBuilder sb = new StringBuilder();
         for (Appointment appointment : Schedule.getAppointments()) {
-            if ( new DateTime().compareTo(appointment.getDateTime()) > 0) {
-                System.out.println(appointment);
+            if (new DateTime().compareTo(appointment.getDateTime()) > 0) {
+                sb.append(appointment);
             }
         }
+        LOGGER.debug("All actual appointments:\n" + sb);
     }
 
+
     public static void listAppointmentByPatient(Patient patient) {
-        System.out.println(Schedule.getAppointments(patient));
+        String patientName = patient.getFirstName() + " " + patient.getLastName();
+        LOGGER.debug("Appointment list by patient " + patientName + ":\n" + Schedule.getAppointments(patient));
     }
 
     public static void listAppointmentByDoctor(Doctor doctor) {
-        System.out.println(Schedule.getAppointments(doctor));
+        String doctorName = doctor.getFirstName() + " " + doctor.getLastName();
+        LOGGER.debug("Appointment list by doctor " + doctorName + ":\n" + Schedule.getAppointments(doctor));
     }
 
     public static void cancelAppointment(Patient patient, Doctor doctor, DateTime dateTime) {

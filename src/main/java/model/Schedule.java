@@ -59,8 +59,7 @@ public class Schedule {
         Patient patient = appointment.getPatient();
         List<Appointment> appointmentList = patientAppointment.get(patient);
         if (appointmentList != null) {
-            Iterator<Appointment> i = appointmentList.iterator();
-            removeAppointment(appointment, i);
+            removeAppointment(appointment, appointmentList.iterator());
         }
         if (patientAppointment.get(patient).isEmpty()) {
             patientAppointment.remove(patient);
@@ -71,23 +70,22 @@ public class Schedule {
         Doctor doctor = appointment.getDoctor();
         List<Appointment> appointmentList = doctorAppointment.get(doctor);
         if (appointmentList != null) {
-            Iterator<Appointment> i = appointmentList.iterator();
-            removeAppointment(appointment, i);
+            removeAppointment(appointment, appointmentList.iterator());
         }
         if (doctorAppointment.get(doctor).isEmpty()) {
-            patientAppointment.remove(doctor);
+            doctorAppointment.remove(doctor);
         }
     }
 
     private static void removeFromAppointments(Appointment appointment) {
-        Iterator<Appointment> i = appointments.iterator();
-        removeAppointment(appointment, i);
+        removeAppointment(appointment, appointments.iterator());
     }
 
     private static void removeAppointment(Appointment appointment, Iterator<Appointment> i) {
         while (i.hasNext()) {
             if (i.next().equals(appointment)){
                 i.remove();
+                return;
             }
         }
     }

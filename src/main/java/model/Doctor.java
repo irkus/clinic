@@ -51,8 +51,6 @@ public class Doctor {
         return ToStringBuilder.reflectionToString(this);
     }
 
-    // TODO: override equals and hashCode with builders
-
     @Override
     public boolean equals(Object o) {
 

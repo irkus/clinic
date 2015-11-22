@@ -1,6 +1,7 @@
 package test;
 
 import model.Doctor;
+import model.FileUtils;
 import model.Gender;
 import model.Patient;
 import model.PatientVIP;
@@ -11,14 +12,23 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import model.AppointmentOperation;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 /**
  * Created by iushakova on 19/07/15.
  */
 public class ClinicTest {
     private final static Logger LOGGER = Logger.getLogger(ClinicTest.class);
 
+    //TODO: file path should be in class path
+    private static final String APPOINTMENT_FILENAME = "/Users/iushakova/Documents/workspace/clinic/src/main/resources/appointment.csv";
+//    private static final String PATIENT_FILENAME = "patient.csv";
+//    private static final String DOCTOR_FILENAME = "doctor.csv";
 
     public static void main(String[] args) {
+
+        FileUtils.delete(APPOINTMENT_FILENAME);
 
         Patient patient1 = new Patient("Markus", "Igel", Gender.MALE, new DateTime());
         Patient patient2 = new Patient("Carlos", "Abarca", Gender.MALE, new DateTime());
@@ -30,9 +40,9 @@ public class ClinicTest {
 
         DateTime dateTime = new DateTime();
 
-        AppointmentOperation appointmentOperation = new AppointmentOperation();
-        appointmentOperation.setSchedule(new ScheduleInMemory());
-//        appointmentOperation.setSchedule(new ScheduleInFile());
+
+
+        AppointmentOperation appointmentOperation = new AppointmentOperation(new ScheduleInFile(APPOINTMENT_FILENAME));
 
 
         appointmentOperation.createAppointment(patient1, doctor1, dateTime);

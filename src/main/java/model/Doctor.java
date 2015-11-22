@@ -1,5 +1,7 @@
 package model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
@@ -12,7 +14,6 @@ public class Doctor {
     private int id;
     private String firstName;
     private String lastName;
-    private Gender gender;
     private String speciality;
 
     public Doctor(String lastName, String firstName, String speciality) {
@@ -22,8 +23,12 @@ public class Doctor {
         this.firstName = firstName;
     }
 
-    public void setGender(Gender gender) {
-        this.gender = gender;
+    public Doctor(int id, String lastName, String firstName, String speciality) {
+        this.id = id;
+        lastId = id;
+        this.speciality = speciality;
+        this.lastName = lastName;
+        this.firstName = firstName;
     }
 
     public int getId() {
@@ -38,10 +43,6 @@ public class Doctor {
         return lastName;
     }
 
-    public Gender getGender() {
-        return gender;
-    }
-
     public String getSpeciality() {
         return speciality;
     }
@@ -53,29 +54,27 @@ public class Doctor {
 
     @Override
     public boolean equals(Object o) {
-
-
         if (this == o) return true;
+
         if (!(o instanceof Doctor)) return false;
 
         Doctor doctor = (Doctor) o;
 
-        if (id != doctor.id) return false;
-        if (!firstName.equals(doctor.firstName)) return false;
-        if (gender != doctor.gender) return false;
-        if (!lastName.equals(doctor.lastName)) return false;
-        if (!speciality.equals(doctor.speciality)) return false;
-
-        return true;
+        return new EqualsBuilder()
+                .append(id, doctor.id)
+                .append(firstName, doctor.firstName)
+                .append(lastName, doctor.lastName)
+                .append(speciality, doctor.speciality)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + firstName.hashCode();
-        result = 31 * result + lastName.hashCode();
-        result = 31 * result + (gender != null ? gender.hashCode() : 0);
-        result = 31 * result + speciality.hashCode();
-        return result;
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .append(firstName)
+                .append(lastName)
+                .append(speciality)
+                .toHashCode();
     }
 }

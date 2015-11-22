@@ -10,7 +10,11 @@ public class AppointmentOperation {
 
     private final static Logger LOGGER = Logger.getLogger(AppointmentOperation.class);
 
-    Schedule schedule;
+    private Schedule schedule;
+
+    public AppointmentOperation(Schedule schedule) {
+        this.schedule = schedule;
+    }
 
     public void createAppointment(Patient patient, Doctor doctor, DateTime dateTime) {
         Appointment newAppointment = new Appointment(patient, doctor, dateTime);
@@ -42,7 +46,4 @@ public class AppointmentOperation {
         schedule.removeAppointment(appointment);
     }
 
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
-    }
 }

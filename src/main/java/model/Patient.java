@@ -16,9 +16,17 @@ public class Patient {
     private Gender gender;
     private DateTime dob;
 
-
     public Patient(String firstName, String lastName, Gender gender, DateTime dob) {
         this.id = lastId++;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.dob = dob;
+    }
+
+    public Patient(int id, String firstName, String lastName, Gender gender, DateTime dob) {
+        this.id = id;
+        lastId = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;

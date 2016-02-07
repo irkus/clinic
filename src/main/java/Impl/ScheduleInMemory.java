@@ -1,4 +1,8 @@
-package model;
+package Impl;
+
+import model.Appointment;
+import model.Doctor;
+import model.Patient;
 
 import java.util.ArrayList;
 import java.util.HashMap;

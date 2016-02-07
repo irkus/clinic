@@ -1,5 +1,9 @@
-package model;
+package Impl;
 
+import model.Appointment;
+import model.Doctor;
+import model.Gender;
+import model.Patient;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 
@@ -9,9 +13,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -38,8 +40,7 @@ public class ScheduleInFile implements Schedule {
     public void removeAppointment(Appointment appointment) {
 
         try (FileInputStream is = new FileInputStream(appointmentFilename);
-            BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-        ) {
+            BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));) {
             String line;
             while ((line = br.readLine()) != null){
                 if (convertStringToAppointment(line).equals(appointment)) {
@@ -109,9 +110,10 @@ public class ScheduleInFile implements Schedule {
 
     private Appointment convertStringToAppointment(String str) {
         String[] data = StringUtils.split(str.trim(), ",");
-        Patient patient = new Patient(Integer.valueOf(data[0]), data[1], data[2], Gender.valueOf(data[3]), new DateTime(Long.valueOf(data[4])));
-        Doctor doctor = new Doctor(Integer.valueOf(data[5]), data[6], data[7], data[8]);
-        return new Appointment(patient, doctor, new DateTime(Long.valueOf(data[9])));
+//        Patient patient = new Patient(Integer.valueOf(data[0]), data[1], data[2], Gender.valueOf(data[3]), new DateTime(Long.valueOf(data[4])));
+//        Doctor doctor = new Doctor(Integer.valueOf(data[5]), data[6], data[7], data[8]);
+//        return new Appointment(patient, doctor, new DateTime(Long.valueOf(data[9])));
+        return null;
     }
 
     private String convertAppointmentToString (Appointment appointment) {
@@ -125,7 +127,6 @@ public class ScheduleInFile implements Schedule {
 
     private String convertPatientToString(Patient patient) {
         StringBuilder sb = new StringBuilder();
-        sb.append(patient.getId()).append(",");
         sb.append(patient.getFirstName()).append(",");
         sb.append(patient.getLastName()).append(",");
         sb.append(patient.getGender()).append(",");
@@ -135,7 +136,6 @@ public class ScheduleInFile implements Schedule {
 
     public String convertDoctorToString(Doctor doctor) {
         StringBuilder sb = new StringBuilder();
-        sb.append(doctor.getId()).append(",");
         sb.append(doctor.getFirstName()).append(",");
         sb.append(doctor.getLastName()).append(",");
         sb.append(doctor.getSpeciality());

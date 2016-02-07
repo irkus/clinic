@@ -1,55 +1,33 @@
 package model;
 
+import lombok.Builder;
+import lombok.NonNull;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.joda.time.DateTime;
 
 /**
  * Created by iushakova on 25/07/15.
  */
-public class Doctor {
 
-    private static int lastId;
+public class Doctor extends Person {
 
-    private int id;
-    private String firstName;
-    private String lastName;
+    @NonNull
     private String speciality;
 
-    public Doctor(String lastName, String firstName, String speciality) {
-        this.id = lastId++;
+    @Builder
+    public Doctor(String firstName, String middleName, String lastName, Gender gender, String address, DateTime dob, String speciality) {
+        super(firstName, middleName, lastName, true, gender, address, dob);
         this.speciality = speciality;
-        this.lastName = lastName;
-        this.firstName = firstName;
     }
 
-    public Doctor(int id, String lastName, String firstName, String speciality) {
-        this.id = id;
-        lastId = id;
+    public void setSpeciality(String speciality) {
         this.speciality = speciality;
-        this.lastName = lastName;
-        this.firstName = firstName;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
     }
 
     public String getSpeciality() {
         return speciality;
-    }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override
@@ -61,9 +39,7 @@ public class Doctor {
         Doctor doctor = (Doctor) o;
 
         return new EqualsBuilder()
-                .append(id, doctor.id)
-                .append(firstName, doctor.firstName)
-                .append(lastName, doctor.lastName)
+                .appendSuper(super.equals(o))
                 .append(speciality, doctor.speciality)
                 .isEquals();
     }
@@ -71,10 +47,16 @@ public class Doctor {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(id)
-                .append(firstName)
-                .append(lastName)
+                .appendSuper(super.hashCode())
                 .append(speciality)
                 .toHashCode();
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .appendSuper(super.toString())
+                .append("speciality", speciality)
+                .toString();
     }
 }

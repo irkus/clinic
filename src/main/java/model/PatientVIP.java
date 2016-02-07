@@ -1,5 +1,8 @@
 package model;
 
+import lombok.Builder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.joda.time.DateTime;
 
@@ -8,12 +11,14 @@ import java.util.Date;
 /**
  * Created by iushakova on 19/07/15.
  */
+
 public class PatientVIP extends Patient {
 
     private float discount;
 
-    public PatientVIP(String firstName, String lastName, Gender gender, DateTime dob, float discount) {
-        super(firstName, lastName, gender, dob);
+//    TODO: @Builder
+    public PatientVIP(String firstName, String middleName, String lastName, Gender gender, String address, DateTime dob, float discount) {
+        super(firstName, middleName, lastName, gender, address, dob);
         this.discount = discount;
     }
 
@@ -22,27 +27,32 @@ public class PatientVIP extends Patient {
     }
 
     @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
+
         if (!(o instanceof PatientVIP)) return false;
-        if (!super.equals(o)) return false;
 
         PatientVIP that = (PatientVIP) o;
 
-        if (Float.compare(that.discount, discount) != 0) return false;
-
-        return true;
+        return new EqualsBuilder()
+                .appendSuper(super.equals(o))
+                .append(discount, that.discount)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (discount != +0.0f ? Float.floatToIntBits(discount) : 0);
-        return result;
+        return new HashCodeBuilder(17, 37)
+                .appendSuper(super.hashCode())
+                .append(discount)
+                .toHashCode();
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append(super.toString())
+                .append("discount", discount)
+                .toString();
     }
 }

@@ -1,5 +1,6 @@
 package model;
 
+import Impl.Schedule;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
